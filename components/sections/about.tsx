@@ -5,6 +5,7 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import sabbir from '@/components/assets/sabbir1.png'
 import { Code, Coffee, Users, Award } from "lucide-react";
 import Image from "next/image";
 
@@ -80,7 +81,7 @@ export default function About() {
               >
                 <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-400/20 to-pink-400/20 p-8">
                   <Image
-                    src="/placeholder.svg?height=400&width=400"
+                    src={sabbir}
                     alt="Sabbir Hossain"
                     width={400}
                     height={400}
