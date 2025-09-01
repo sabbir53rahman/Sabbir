@@ -1,11 +1,10 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
-import { useRef } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Calendar, MapPin, ExternalLink } from "lucide-react"
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, MapPin, ExternalLink } from "lucide-react";
 
 const experiences = [
   {
@@ -56,52 +55,68 @@ const experiences = [
     technologies: ["MongoDB", "Express.js", "React", "Node.js", "Mongoose"],
     color: "from-purple-500 to-pink-500",
   },
-]
-
+];
 
 export default function Experience() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="experience" className="py-32 px-4 relative">
+    <section
+      id="experience"
+      className="py-24 md:py-32 px-4 relative bg-slate-950"
+    >
       <div className="max-w-6xl mx-auto" ref={ref}>
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="text-center mb-16 md:mb-20"
         >
-          <h2 className="text-5xl md:text-7xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 md:mb-6">
             My{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Journey</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+              Journey
+            </span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            A timeline of my professional growth and the amazing projects I've been part of
+          <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+            A timeline of my professional growth and the amazing projects I've
+            been part of
           </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto rounded-full mt-6" />
+          <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto rounded-full mt-4 md:mt-6" />
         </motion.div>
 
+        {/* Timeline Container */}
         <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-purple-400 via-pink-400 to-purple-400 rounded-full opacity-30" />
+          {/* Vertical line for large screens */}
+          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-purple-400 via-pink-400 to-purple-400 rounded-full opacity-30" />
 
-          <div className="space-y-16">
+          <div className="space-y-12 md:space-y-20">
             {experiences.map((exp, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 50 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: index * 0.2 }}
-                className={`flex items-center ${index % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}
+                className={`flex flex-col md:flex-row items-center md:items-start ${
+                  index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                }`}
               >
-                <div className={`w-1/2 ${index % 2 === 0 ? "pr-8" : "pl-8"}`}>
-                  <motion.div whileHover={{ scale: 1.02, y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
+                {/* Card */}
+                <div className="w-full md:w-1/2 px-0 md:px-8 mb-8 md:mb-0">
+                  <motion.div
+                    whileHover={{ scale: 1.02, y: -5 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
                     <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
-                      <CardContent className="p-8">
+                      <CardContent className="p-6 md:p-8">
+                        {/* Header */}
                         <div className="flex items-start justify-between mb-4">
                           <div>
-                            <h3 className="text-2xl font-bold text-white mb-2">{exp.title}</h3>
+                            <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                              {exp.title}
+                            </h3>
                             <div className="flex items-center gap-2 text-purple-400 font-semibold mb-2">
                               <ExternalLink className="w-4 h-4" />
                               {exp.company}
@@ -109,12 +124,17 @@ export default function Experience() {
                           </div>
                           <motion.div
                             animate={{ rotate: [0, 5, -5, 0] }}
-                            transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                            transition={{
+                              duration: 4,
+                              repeat: Number.POSITIVE_INFINITY,
+                              ease: "easeInOut",
+                            }}
                             className={`w-4 h-4 bg-gradient-to-r ${exp.color} rounded-full`}
                           />
                         </div>
 
-                        <div className="flex items-center gap-4 text-gray-400 text-sm mb-4">
+                        {/* Period & Location */}
+                        <div className="flex items-center gap-4 text-gray-400 text-sm mb-4 flex-wrap">
                           <div className="flex items-center gap-1">
                             <Calendar className="w-4 h-4" />
                             {exp.period}
@@ -125,37 +145,59 @@ export default function Experience() {
                           </div>
                         </div>
 
-                        <p className="text-gray-300 mb-6 leading-relaxed">{exp.description}</p>
+                        {/* Description */}
+                        <p className="text-gray-300 mb-4 md:mb-6 leading-relaxed">
+                          {exp.description}
+                        </p>
 
-                        <div className="mb-6">
-                          <h4 className="text-white font-semibold mb-3">Key Achievements:</h4>
-                          <ul className="space-y-2">
+                        {/* Achievements */}
+                        <div className="mb-4 md:mb-6">
+                          <h4 className="text-white font-semibold mb-2">
+                            Key Achievements:
+                          </h4>
+                          <ul className="space-y-1 md:space-y-2">
                             {exp.achievements.map((achievement, achIndex) => (
                               <motion.li
                                 key={achIndex}
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={isInView ? { opacity: 1, x: 0 } : {}}
-                                transition={{ duration: 0.5, delay: index * 0.2 + achIndex * 0.1 }}
+                                transition={{
+                                  duration: 0.5,
+                                  delay: index * 0.2 + achIndex * 0.1,
+                                }}
                                 className="text-gray-300 flex items-center gap-2"
                               >
-                                <div className={`w-2 h-2 bg-gradient-to-r ${exp.color} rounded-full`} />
+                                <div
+                                  className={`w-2 h-2 bg-gradient-to-r ${exp.color} rounded-full`}
+                                />
                                 {achievement}
                               </motion.li>
                             ))}
                           </ul>
                         </div>
 
+                        {/* Technologies */}
                         <div>
-                          <h4 className="text-white font-semibold mb-3">Technologies:</h4>
+                          <h4 className="text-white font-semibold mb-2">
+                            Technologies:
+                          </h4>
                           <div className="flex flex-wrap gap-2">
                             {exp.technologies.map((tech, techIndex) => (
                               <motion.div
                                 key={tech}
                                 initial={{ opacity: 0, scale: 0 }}
-                                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                                transition={{ duration: 0.3, delay: index * 0.2 + techIndex * 0.05 }}
+                                animate={
+                                  isInView ? { opacity: 1, scale: 1 } : {}
+                                }
+                                transition={{
+                                  duration: 0.3,
+                                  delay: index * 0.2 + techIndex * 0.05,
+                                }}
                               >
-                                <Badge variant="secondary" className="bg-purple-400/20 text-purple-300">
+                                <Badge
+                                  variant="secondary"
+                                  className="bg-purple-400/20 text-purple-300"
+                                >
                                   {tech}
                                 </Badge>
                               </motion.div>
@@ -169,10 +211,10 @@ export default function Experience() {
 
                 {/* Timeline dot */}
                 <motion.div
+                  className="flex-shrink-0 z-10 md:mx-0 mx-auto mb-8 md:mb-0"
                   initial={{ scale: 0 }}
                   animate={isInView ? { scale: 1 } : {}}
                   transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
-                  className="relative z-10"
                 >
                   <motion.div
                     animate={{ scale: [1, 1.2, 1] }}
@@ -185,13 +227,11 @@ export default function Experience() {
                     className={`w-6 h-6 bg-gradient-to-r ${exp.color} rounded-full border-4 border-slate-950`}
                   />
                 </motion.div>
-
-                <div className="w-1/2" />
               </motion.div>
             ))}
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
