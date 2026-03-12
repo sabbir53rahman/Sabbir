@@ -27,8 +27,8 @@ export default function Portfolio() {
 
   return (
     <LenisProvider>
-      <div className="relative min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 overflow-x-hidden">
-        <ParticleBackground />
+      <div className="relative bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950">
+        {/* <ParticleBackground /> */}
         <ScrollProgress />
         <Navbar />
         <main>
@@ -40,7 +40,7 @@ export default function Portfolio() {
           <Testimonials />
           <Contact />
         </main>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </LenisProvider>
   );

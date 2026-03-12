@@ -1,262 +1,258 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Quote, Star, ChevronLeft, ChevronRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import {
+  Quote,
+  Star,
+  ChevronLeft,
+  ChevronRight,
+  MessageSquareQuote,
+} from "lucide-react";
+import Image from "next/image";
 
+// Placeholder testimonials - these would be replaced with real data
 const testimonials = [
   {
-    name: "Sarah Johnson",
-    role: "Product Manager",
-    company: "TechCorp",
-    image: "/placeholder.svg?height=100&width=100",
+    name: "Alex Reed",
+    role: "CEO",
+    company: "Nexus Innovations",
     content:
-      "Sabbir delivered exceptional work on our e-commerce platform. His attention to detail and technical expertise exceeded our expectations. The project was completed on time and within budget.",
+      "An absolute professional. Sabbir transformed our cumbersome legacy application into a lightning-fast, modern React experience. His architectural decisions saved us months of future technical debt.",
     rating: 5,
-    project: "E-Commerce Platform",
+    project: "Enterprise SaaS Platform",
+    image: "/placeholder.svg?height=100&width=100",
   },
   {
-    name: "Michael Chen",
-    role: "CTO",
-    company: "StartupHub",
-    image: "/placeholder.svg?height=100&width=100",
+    name: "Samantha Wright",
+    role: "Director of Product",
+    company: "Aura Systems",
     content:
-      "Working with Sabbir was a game-changer for our startup. He transformed our ideas into a beautiful, functional application that our users love. His communication throughout the project was excellent.",
+      "The precision and speed at which Sabbir delivers is remarkable. He has a unique ability to translate complex business requirements into intuitive, fluid user interfaces.",
     rating: 5,
-    project: "Task Management App",
+    project: "Dashboard Redesign",
+    image: "/placeholder.svg?height=100&width=100",
   },
   {
-    name: "Emily Rodriguez",
+    name: "Marcus Chen",
+    role: "Lead Engineer",
+    company: "FinTech Solutions",
+    content:
+      "Working with Sabbir was a masterclass in modern MERN stack development. His REST APIs are robust, secure, and incredibly well-documented. A vital asset to any ambitious technical project.",
+    rating: 5,
+    project: "Financial Data Processing API",
+    image: "/placeholder.svg?height=100&width=100",
+  },
+  {
+    name: "Elena Rodriguez",
     role: "Marketing Director",
-    company: "Digital Agency",
-    image: "/placeholder.svg?height=100&width=100",
+    company: "Creative Pulse",
     content:
-      "The social media dashboard Sabbir built for us has revolutionized how we manage our clients' campaigns. The analytics features are incredibly detailed and the interface is intuitive.",
+      "We needed a portfolio platform that was as creative as our agency. Sabbir delivered an award-winning UI that performs flawlessly under heavy traffic. The animations are phenomenal.",
     rating: 5,
-    project: "Social Media Dashboard",
-  },
-  {
-    name: "David Thompson",
-    role: "Founder",
-    company: "WeatherTech",
+    project: "Digital Agency Portfolio",
     image: "/placeholder.svg?height=100&width=100",
-    content:
-      "Sabbir's expertise in mobile development helped us create a weather app that stands out in the market. His innovative approach and problem-solving skills are remarkable.",
-    rating: 5,
-    project: "Weather Forecast App",
   },
-  {
-    name: "Lisa Wang",
-    role: "Operations Manager",
-    company: "AI Solutions",
-    image: "/placeholder.svg?height=100&width=100",
-    content:
-      "The AI chat assistant Sabbir developed has significantly improved our customer service efficiency. His understanding of AI technologies and implementation is impressive.",
-    rating: 5,
-    project: "AI Chat Assistant",
-  },
-]
+];
 
 export default function Testimonials() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+  const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Auto-play functionality
   useEffect(() => {
-    if (!isAutoPlaying) return
+    if (isHovered) return;
+    const timer = setInterval(() => {
+      setDirection(1);
+      setIndex((prev) => (prev + 1) % testimonials.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [isHovered]);
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length)
-    }, 5000)
+  const paginate = (newDirection: number) => {
+    setDirection(newDirection);
+    if (newDirection === 1) {
+      setIndex((prev) => (prev + 1) % testimonials.length);
+    } else {
+      setIndex(
+        (prev) => (prev - 1 + testimonials.length) % testimonials.length,
+      );
+    }
+  };
 
-    return () => clearInterval(interval)
-  }, [isAutoPlaying])
+  const jumpToIndex = (newIndex: number) => {
+    setDirection(newIndex > index ? 1 : -1);
+    setIndex(newIndex);
+  };
 
-  const nextTestimonial = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length)
-    setIsAutoPlaying(false)
-  }
-
-  const prevTestimonial = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)
-    setIsAutoPlaying(false)
-  }
-
-  const goToTestimonial = (index: number) => {
-    setCurrentIndex(index)
-    setIsAutoPlaying(false)
-  }
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 100 : -100,
+      opacity: 0,
+      scale: 0.95,
+      rotateY: direction > 0 ? 10 : -10,
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      rotateY: 0,
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      x: direction < 0 ? 100 : -100,
+      opacity: 0,
+      scale: 0.95,
+      rotateY: direction < 0 ? 10 : -10,
+    }),
+  };
 
   return (
-    <section id="testimonials" className="py-32 px-4 relative">
-      <div className="max-w-6xl mx-auto" ref={ref}>
+    <section
+      id="testimonials"
+      className="py-24 md:py-40 px-4 relative bg-[#030303] overflow-hidden"
+    >
+      {/* Background Ambient Glows */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
+        <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-indigo-500/10 rounded-full blur-[150px] mix-blend-screen" />
+      </div>
+
+      <div className="max-w-6xl mx-auto relative z-10" ref={ref}>
+        {/* Superior Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-16 md:mb-24"
         >
-          <h2 className="text-5xl md:text-7xl font-bold text-white mb-6">
-            What Clients{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Say</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md shadow-xl text-slate-300 text-xs font-semibold uppercase tracking-[0.2em] mb-8">
+            <MessageSquareQuote className="w-4 h-4 text-indigo-400" />
+            Endorsements
+          </div>
+          <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter text-white mb-6">
+            Client{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-sky-400">
+              Feedback.
+            </span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Don't just take my word for it - here's what my clients have to say about working with me
+          <p className="text-lg text-slate-400 font-light max-w-2xl mx-auto">
+            Real experiences from founders and engineering leaders regarding my
+            architectural decisions, code quality, and delivery speed.
           </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto rounded-full mt-6" />
         </motion.div>
 
-        <div className="relative">
-          {/* Main Testimonial */}
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.5 }}
-            className="mb-12"
-          >
-            <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
-              <CardContent className="p-12">
-                <div className="flex flex-col lg:flex-row items-center gap-8">
-                  <div className="flex-1">
-                    <motion.div
-                      animate={{ rotate: [0, 5, -5, 0] }}
-                      transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-                      className="text-purple-400 mb-6"
-                    >
-                      <Quote className="w-12 h-12" />
-                    </motion.div>
+        {/* The Carousel Container */}
+        <div
+          className="relative max-w-5xl mx-auto perspective-1000"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {/* Main Slider Area */}
+          <div className="relative h-[450px] sm:h-[350px] lg:h-[400px] flex items-center justify-center">
+            <AnimatePresence initial={false} custom={direction} mode="wait">
+              <motion.div
+                key={index}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  x: { type: "spring", stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.4 },
+                  scale: { duration: 0.4 },
+                  rotateY: { duration: 0.4 },
+                }}
+                className="absolute w-full px-4 sm:px-12"
+              >
+                {/* Premium Glass Card */}
+                <div className="relative overflow-hidden bg-[#0a0a0a] rounded-[2.5rem] border border-white/10 p-8 sm:p-12 lg:p-16 shadow-2xl flex flex-col md:flex-row gap-8 lg:gap-16 items-center w-full">
+                  {/* Subtle internal glow aligned to top left */}
+                  <div className="absolute -top-32 -left-32 w-64 h-64 bg-indigo-500/20 rounded-full blur-[80px]" />
 
-                    <blockquote className="text-xl md:text-2xl text-gray-300 leading-relaxed mb-6">
-                      "{testimonials[currentIndex].content}"
-                    </blockquote>
+                  {/* Quotation Mark Watermark */}
+                  <Quote className="absolute -top-6 -right-6 w-48 h-48 text-white/[0.02] pointer-events-none -rotate-12" />
 
-                    <div className="flex items-center gap-2 mb-4">
-                      {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                        <motion.div
+                  {/* Typography Content */}
+                  <div className="flex-1 relative z-10 text-center md:text-left">
+                    <div className="flex justify-center md:justify-start gap-1 mb-8">
+                      {[...Array(testimonials[index].rating)].map((_, i) => (
+                        <Star
                           key={i}
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: i * 0.1 }}
-                        >
-                          <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                        </motion.div>
+                          className="w-5 h-5 text-indigo-400 fill-indigo-400/20 drop-shadow-[0_0_10px_rgba(129,140,248,0.5)]"
+                        />
                       ))}
                     </div>
 
-                    <div className="text-sm text-purple-400 font-medium mb-2">
-                      Project: {testimonials[currentIndex].project}
-                    </div>
-                  </div>
+                    <p className="text-xl sm:text-2xl lg:text-3xl text-white font-medium leading-[1.4] tracking-tight mb-8">
+                      "{testimonials[index].content}"
+                    </p>
 
-                  <div className="text-center lg:text-right">
-                    <motion.div whileHover={{ scale: 1.05 }} className="mb-4">
-                      <Avatar className="w-24 h-24 mx-auto lg:mx-0 border-4 border-purple-400/30">
-                        <AvatarImage src={testimonials[currentIndex].image || "/placeholder.svg"} />
-                        <AvatarFallback className="bg-gradient-to-r from-purple-400 to-pink-400 text-white text-xl">
-                          {testimonials[currentIndex].name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
-                        </AvatarFallback>
-                      </Avatar>
-                    </motion.div>
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-t border-white/10 pt-6">
+                      <div>
+                        <h4 className="text-lg font-bold text-white tracking-tight">
+                          {testimonials[index].name}
+                        </h4>
+                        <p className="text-slate-400 text-sm font-medium">
+                          {testimonials[index].role}{" "}
+                          <span className="mx-1 text-white/20">|</span>{" "}
+                          <span className="text-indigo-400">
+                            {testimonials[index].company}
+                          </span>
+                        </p>
+                      </div>
 
-                    <div>
-                      <h4 className="text-xl font-bold text-white mb-1">{testimonials[currentIndex].name}</h4>
-                      <p className="text-purple-400 font-medium mb-1">{testimonials[currentIndex].role}</p>
-                      <p className="text-gray-400 text-sm">{testimonials[currentIndex].company}</p>
+                      <div className="px-4 py-2 rounded-full border border-white/10 bg-white/5 text-xs font-mono tracking-widest uppercase text-slate-300 backdrop-blur-md whitespace-nowrap hidden sm:block">
+                        {testimonials[index].project}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
-          {/* Navigation */}
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={prevTestimonial}
-                className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white"
+          {/* Slider Controls */}
+          <div className="flex items-center justify-between mt-8 px-4 sm:px-12 relative z-20">
+            {/* Circular Nav Buttons */}
+            <div className="flex gap-4">
+              <button
+                onClick={() => paginate(-1)}
+                className="w-12 h-12 rounded-full border border-white/10 bg-[#0a0a0a] flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all hover:scale-105 active:scale-95"
               >
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-            </motion.div>
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => paginate(1)}
+                className="w-12 h-12 rounded-full border border-white/10 bg-[#0a0a0a] flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all hover:scale-105 active:scale-95"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
 
-            <div className="flex gap-2">
-              {testimonials.map((_, index) => (
-                <motion.button
-                  key={index}
-                  onClick={() => goToTestimonial(index)}
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.8 }}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentIndex
-                      ? "bg-gradient-to-r from-purple-400 to-pink-400"
-                      : "bg-gray-600 hover:bg-gray-500"
+            {/* Minimalist Dot Indicators */}
+            <div className="flex gap-3">
+              {testimonials.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => jumpToIndex(idx)}
+                  className={`h-1.5 rounded-full transition-all duration-500 ease-out ${
+                    idx === index
+                      ? "w-8 bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.6)]"
+                      : "w-1.5 bg-slate-700 hover:bg-slate-500"
                   }`}
+                  aria-label={`Go to testimonial ${idx + 1}`}
                 />
               ))}
             </div>
-
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={nextTestimonial}
-                className="border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </motion.div>
           </div>
-
-          {/* Thumbnail Grid */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="grid grid-cols-2 md:grid-cols-5 gap-4"
-          >
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => goToTestimonial(index)}
-                className={`cursor-pointer transition-all duration-300 ${
-                  index === currentIndex ? "opacity-100" : "opacity-50 hover:opacity-75"
-                }`}
-              >
-                <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300">
-                  <CardContent className="p-4 text-center">
-                    <Avatar className="w-12 h-12 mx-auto mb-2 border-2 border-purple-400/30">
-                      <AvatarImage src={testimonial.image || "/placeholder.svg"} />
-                      <AvatarFallback className="bg-gradient-to-r from-purple-400 to-pink-400 text-white text-sm">
-                        {testimonial.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </AvatarFallback>
-                    </Avatar>
-                    <h5 className="text-white text-sm font-medium mb-1">{testimonial.name}</h5>
-                    <p className="text-gray-400 text-xs">{testimonial.company}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
       </div>
     </section>
-  )
+  );
 }

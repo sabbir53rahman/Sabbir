@@ -1,22 +1,19 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Download, Sparkles, Code, Zap, Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useRef } from "react";
-import sabbir from "@/components/assets/sabbir.png";
+import { motion } from "framer-motion";
+import {
+  ArrowUpRight,
+  Github,
+  Send,
+  Terminal,
+  Sparkles,
+  MapPin,
+} from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import sabbir from "@/components/assets/sabbir.png";
 
 export default function Hero() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
-
   const scrollToProjects = () => {
     const element = document.getElementById("projects");
     if (element) {
@@ -24,330 +21,190 @@ export default function Hero() {
     }
   };
 
+  const scrollToContact = () => {
+    const element = document.getElementById("contact");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section
-      ref={ref}
       id="home"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
+      className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-[#030303] pt-24 pb-16"
     >
-      {/* Animated Background Grid */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+      {/* Absolute Ambient Glows */}
+      <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] mix-blend-screen opacity-50 animate-pulse-slow" />
+        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-violet-500/10 rounded-full blur-[150px] mix-blend-screen opacity-50" />
       </div>
 
-      {/* Floating Orbs */}
-      <motion.div
-        style={{ y, opacity }}
-        className="absolute inset-0 overflow-hidden"
-      >
-        <motion.div
-          animate={{
-            x: [0, 100, 0],
-            y: [0, -100, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-          className="absolute top-1/4 left-1/4 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{
-            x: [0, -100, 0],
-            y: [0, 100, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-          className="absolute top-1/3 right-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{
-            x: [0, 50, 0],
-            y: [0, -50, 0],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-          className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"
-        />
-      </motion.div>
+      {/* Grid Pattern */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none opacity-[0.03]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }}
+      />
 
-      <motion.div
-        style={{ y, opacity }}
-        className="text-center z-10 max-w-6xl mx-auto px-4"
-      >
-        {/* Profile Image with Enhanced Animation */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full flex flex-col items-center">
+        {/* Availability Badge */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.5, rotateY: 180 }}
-          animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="mb-12"
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-8 lg:mb-12 cursor-pointer group"
+          onClick={scrollToContact}
         >
-          <div className="relative w-48 h-48 mx-auto">
-            {/* Rotating Ring */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{
-                duration: 20,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "linear",
-              }}
-              className="absolute inset-0 rounded-full"
-              style={{
-                background:
-                  "conic-gradient(from 0deg, #8b5cf6, #ec4899, #06b6d4, #8b5cf6)",
-              }}
-            >
-              <div className="absolute inset-2 rounded-full bg-slate-950" />
-            </motion.div>
+          <div className="relative flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-2xl transition-all duration-500 group-hover:bg-white/10 group-hover:border-white/20">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]"></span>
+            </span>
+            <span className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">
+              Available for ambitious projects
+            </span>
+            <ArrowUpRight className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
+          </div>
+        </motion.div>
 
-            {/* Inner Content */}
-            <div className="absolute inset-4 rounded-full bg-gradient-to-br from-purple-400/20 to-pink-400/20 backdrop-blur-sm flex items-center justify-center">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
-              >
+        {/* Hero Title Area - Typography Focused */}
+        <div className="text-center max-w-5xl mx-auto flex flex-col items-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="text-5xl sm:text-7xl lg:text-[7.5rem] font-bold tracking-[-0.04em] text-white leading-[0.95] mb-6"
+          >
+            Engineering <br className="hidden sm:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-200 via-slate-400 to-slate-500">
+              Digital Excellence.
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="text-lg sm:text-xl lg:text-2xl font-light text-slate-400 max-w-3xl leading-relaxed tracking-wide mb-12"
+          >
+            Hi, I'm <b className="text-white font-medium">Sabbir Hossain</b>. A
+            Full-Stack Engineer passionate about crafting pixel-perfect
+            interfaces and infinitely scalable systems.
+          </motion.p>
+        </div>
+
+        {/* Action Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mb-20 w-full sm:w-auto"
+        >
+          <button
+            onClick={scrollToProjects}
+            className="group relative flex items-center justify-center gap-3 px-8 py-4 w-full sm:w-auto text-sm sm:text-base font-semibold text-[#030303] bg-white rounded-full overflow-hidden transition-all hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-slate-200 to-white opacity-0 group-hover:opacity-100 transition-opacity" />
+            <Sparkles className="w-5 h-5 relative z-10" />
+            <span className="relative z-10">Explore My Work</span>
+          </button>
+
+          <a
+            href="/Resume_of_Sabbir_Hossain.pdf"
+            target="_blank"
+            className="group relative flex items-center justify-center gap-3 px-8 py-4 w-full sm:w-auto text-sm sm:text-base font-medium text-white bg-white/5 border border-white/10 rounded-full overflow-hidden backdrop-blur-md transition-all hover:bg-white/10 hover:border-white/20 active:scale-[0.98]"
+          >
+            <Terminal className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors relative z-10" />
+            <span className="relative z-10">View Resume</span>
+          </a>
+        </motion.div>
+
+        {/* Showcasing Developer Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="relative w-full max-w-4xl mx-auto perspective-1000"
+        >
+          {/* Card Wrapper with intricate shadow mapping */}
+          <div className="relative rounded-[2.5rem] p-3 bg-white/5 border border-white/10 backdrop-blur-2xl shadow-[0_20px_80px_-20px_rgba(0,0,0,1)]">
+            <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-[2.5rem] opacity-50 pointer-events-none" />
+
+            <div className="relative flex flex-col md:flex-row items-center gap-8 bg-[#0a0a0a] rounded-[2rem] p-6 sm:p-8 overflow-hidden border border-white/5">
+              {/* Image Section */}
+              <div className="w-32 h-32 sm:w-40 sm:h-40 shrink-0 relative rounded-full overflow-hidden border border-white/10 bg-slate-900 shadow-xl">
                 <Image
                   src={sabbir}
-                  alt="Sabbir"
-                  width={400}
-                  height={400}
-                  className="rounded-full object-cover"
+                  alt="Sabbir Hossain"
+                  fill
+                  priority
+                  className="object-cover scale-[1.15] object-[center_top] grayscale-[30%] contrast-125 transition-all duration-700 hover:scale-[1.10] hover:grayscale-0"
                 />
-              </motion.div>
+              </div>
+
+              {/* Dev Details */}
+              <div className="flex flex-col items-center md:items-start text-center md:text-left w-full">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-px w-6 bg-indigo-500/50 hidden md:block" />
+                  <span className="text-xs font-mono font-bold tracking-widest text-indigo-400 uppercase">
+                    Full-Stack Engineer
+                  </span>
+                </div>
+
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                  Building the Web, <br className="hidden md:block" />
+                  <span className="text-slate-400 font-light italic">
+                    One block at a time.
+                  </span>
+                </h3>
+
+                <p className="text-sm text-slate-500 max-w-md mb-6 leading-relaxed">
+                  Specializing in React ecosystem, scalable Node.js
+                  architectures, and ultra-performant API design. Focused on
+                  delivering premium user experiences.
+                </p>
+
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs text-slate-300 font-mono">
+                    <MapPin className="w-3.5 h-3.5 text-slate-500" />
+                    BD/Remote
+                  </div>
+                  <Link
+                    href="https://github.com/sabbir53rahman"
+                    target="_blank"
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs text-slate-300 font-mono hover:bg-white/10 transition-colors"
+                  >
+                    <Github className="w-3.5 h-3.5 text-slate-500" />
+                    sabbir53rahman
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right Side Decorative Tech Elements */}
+              <div className="hidden lg:flex absolute right-8 top-1/2 -translate-y-1/2 flex-col gap-3">
+                {[
+                  "React.js",
+                  "Next.js 14",
+                  "Node.js",
+                  "MongoDB",
+                  "TypeScript",
+                ].map((tech, i) => (
+                  <div
+                    key={tech}
+                    className="flex items-center justify-end gap-3 group"
+                  >
+                    <span className="text-[10px] font-mono tracking-widest text-slate-600 uppercase group-hover:text-indigo-400 transition-colors">
+                      {tech}
+                    </span>
+                    <div className="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-indigo-500 transition-colors shadow-[0_0_10px_rgba(99,102,241,0)] group-hover:shadow-[0_0_10px_rgba(99,102,241,0.5)]" />
+                  </div>
+                ))}
+              </div>
             </div>
-
-            {/* Floating Icons */}
-            <motion.div
-              animate={{
-                rotate: 360,
-                y: [-10, 10, -10],
-              }}
-              transition={{
-                rotate: {
-                  duration: 8,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "linear",
-                },
-                y: {
-                  duration: 3,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                },
-              }}
-              className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center"
-            >
-              <Code className="w-6 h-6 text-white" />
-            </motion.div>
-
-            <motion.div
-              animate={{
-                rotate: -360,
-                y: [10, -10, 10],
-              }}
-              transition={{
-                rotate: {
-                  duration: 10,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "linear",
-                },
-                y: {
-                  duration: 4,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                },
-              }}
-              className="absolute -bottom-6 -left-6 w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center"
-            >
-              <Zap className="w-6 h-6 text-white" />
-            </motion.div>
-
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                rotate: [0, 180, 360],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-              }}
-              className="absolute -top-6 -left-6 w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center"
-            >
-              <Star className="w-4 h-4 text-white" />
-            </motion.div>
           </div>
         </motion.div>
-
-        {/* Enhanced Typography */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="mb-8"
-        >
-          <motion.h1
-            className="text-[24px] md:text-[28px] lg:text-[36px] font-black text-white mb-6 leading-none"
-            style={{
-              background:
-                "linear-gradient(135deg, #ffffff 0%, #a855f7 50%, #ec4899 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            <motion.span
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-            >
-              Sabbir
-            </motion.span>{" "}
-            <motion.span
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.7 }}
-              className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-600"
-            >
-              Hossain
-            </motion.span>
-          </motion.h1>
-        </motion.div>
-
-        {/* Animated Subtitle */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
-          className="mb-8"
-        >
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{
-                duration: 8,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "linear",
-              }}
-              className="w-2 h-2 bg-purple-400 rounded-full"
-            />
-            <h2 className="text-2xl md:text-4xl text-gray-300 font-light tracking-wider">
-              Full Stack MERN Developer
-            </h2>
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{
-                duration: 8,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "linear",
-              }}
-              className="w-2 h-2 bg-pink-400 rounded-full"
-            />
-          </div>
-        </motion.div>
-
-        {/* Enhanced Description */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.1, duration: 0.8 }}
-          className="text-xl md:text-2xl text-gray-400 max-w-4xl mx-auto leading-relaxed mb-12"
-        >
-          Crafting digital experiences with{" "}
-          <span className="text-purple-400 font-semibold">
-            modern technologies
-          </span>
-          . I transform ideas into beautiful, functional applications that make
-          a <span className="text-pink-400 font-semibold">real difference</span>
-          .
-        </motion.p>
-
-        {/* Enhanced CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.3, duration: 0.8 }}
-          className="flex flex-col sm:flex-row gap-6 justify-center mb-16"
-        >
-          <motion.div
-            whileHover={{ scale: 1.05, y: -5 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative group"
-          >
-            <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200" />
-            <Button
-              onClick={scrollToProjects}
-              size="lg"
-              className="relative bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-10 py-4 rounded-full text-lg font-semibold shadow-2xl"
-            >
-              <motion.span
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-              >
-                View My Work
-              </motion.span>
-              <ArrowRight className="ml-3 w-5 h-5" />
-            </Button>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ scale: 1.05, y: -5 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative group"
-          >
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur opacity-50 group-hover:opacity-75 transition duration-1000 group-hover:duration-200" />
-            <Button
-              variant="outline"
-              size="lg"
-              className="relative border-2 border-purple-400/50 text-purple-400 hover:bg-purple-400/10 hover:border-purple-400 px-10 py-4 rounded-full text-lg font-semibold backdrop-blur-sm"
-            >
-              <Download className="mr-3 w-5 h-5" />
-              Download CV
-            </Button>
-          </motion.div>
-        </motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="flex flex-col items-center"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{
-              duration: 2,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "easeInOut",
-            }}
-            className="text-gray-400 text-sm mb-4 flex items-center gap-2"
-          >
-            <Sparkles className="w-4 h-4" />
-            Scroll to explore
-            <Sparkles className="w-4 h-4" />
-          </motion.div>
-          <motion.div
-            animate={{
-              height: [20, 40, 20],
-              opacity: [0.5, 1, 0.5],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "easeInOut",
-            }}
-            className="w-px bg-gradient-to-b from-purple-400 to-transparent"
-          />
-        </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }
