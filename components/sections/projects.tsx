@@ -15,6 +15,7 @@ import {
 import LMS from "@/components/assets/lms.png";
 import COCO from "@/components/assets/Coco.png";
 import SMS from "@/components/assets/sms.png";
+import Lanxa from "@/components/assets/Lanxa.png";
 import Hikhma from "@/components/assets/hikhma.png";
 
 // This array can scale infinitely. The grid fluidly adapts.
@@ -76,15 +77,15 @@ const projects = [
     featured: false,
   },
   {
-    title: "AI Prompt Marketplace",
-    category: "Full Stack",
+    title: "Lanxa",
+    category: "Frontend",
     description:
-      "A decentralized marketplace for buying and selling optimized AI prompt templates. Integrated with Stripe Connect for seamless peer-to-peer developer payouts.",
-    image: "/placeholder.svg?height=600&width=800",
-    technologies: ["Next.js 14", "Prisma", "PostgreSQL", "Stripe"],
+      "Discover Lanxa, the premier marketplace for buying and selling verified digital accounts. From social media profiles to streaming services and software",
+    image: Lanxa,
+    technologies: ["Next.js 14", "Shadcn UI", "Tailwind", "Redux Toolkit"],
     github: "#",
-    live: "#",
-    featured: false,
+    live: "https://www.lanxa.net/",
+    featured: true,
   },
 ];
 
