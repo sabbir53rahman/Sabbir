@@ -7,10 +7,11 @@ import { Menu, X, Github, Linkedin, Mail } from "lucide-react";
 const navItems = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
+  { name: "Work", href: "#work" },
   { name: "Skills", href: "#skills" },
-  { name: "Experience", href: "#experience" },
+  { name: "Education", href: "#education" },
+  { name: "Journey", href: "#experience" },
   { name: "Projects", href: "#projects" },
-  { name: "Testimonials", href: "#testimonials" },
   { name: "Contact", href: "#contact" },
 ];
 
@@ -64,7 +65,7 @@ export default function Navbar() {
         scrolled ? "py-4" : "py-6"
       }`}
     >
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div
           className={`flex justify-between items-center transition-all duration-500 rounded-full px-6 py-3 ${
             scrolled

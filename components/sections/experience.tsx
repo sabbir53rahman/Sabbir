@@ -83,9 +83,6 @@ const experiences = [
 ];
 
 export default function Experience() {
-  const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
-
   return (
     <section
       id="experience"
@@ -102,13 +99,14 @@ export default function Experience() {
       <div className="absolute top-1/3 right-0 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-[150px] translate-x-1/2 pointer-events-none" />
       <div className="absolute bottom-1/3 left-0 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[150px] -translate-x-1/2 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10" ref={containerRef}>
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header System */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20 md:mb-32">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, x: -50, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-2xl"
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-400 text-[10px] font-mono font-bold uppercase tracking-[0.2em] mb-6">
@@ -116,17 +114,18 @@ export default function Experience() {
               Chronicle of Growth
             </div>
             <h2 className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-[0.95]">
-              Professional <br className="hidden md:block" />
+              Technical <br className="hidden md:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-200 via-slate-400 to-slate-500 italic font-light">
-                Trajectory.
+                Evolution.
               </span>
             </h2>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, x: 50, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col items-start md:items-end gap-4"
           >
             <p className="text-slate-400 font-light text-lg max-w-sm md:text-right leading-relaxed">
@@ -138,18 +137,28 @@ export default function Experience() {
 
         {/* Operational Roadmap Layout */}
         <div className="relative">
-          {/* Central Transport Line */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-500/0 via-white/10 to-indigo-500/0 hidden lg:block" />
+          {/* Central Transport Line Default */}
+          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-white/5 hidden lg:block" />
+          
+          {/* Central Transport Line Animated */}
+          <motion.div 
+            initial={{ height: "0%" }}
+            whileInView={{ height: "100%" }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 2.5, ease: "easeInOut" }}
+            className="absolute left-1/2 -translate-x-1/2 top-0 w-px bg-gradient-to-b from-indigo-500/0 via-white/20 to-indigo-500/0 hidden lg:block origin-top" 
+          />
 
           <div className="space-y-24 lg:space-y-40">
             {experiences.map((exp, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                initial={{ opacity: 0, y: 100, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
                 transition={{
-                  duration: 1,
-                  delay: index * 0.2,
+                  duration: 0.8,
+                  delay: 0.1,
                   ease: [0.22, 1, 0.36, 1],
                 }}
                 className={`relative flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-0 ${
@@ -158,18 +167,24 @@ export default function Experience() {
               >
                 {/* Visual Connector Node (Desktop) */}
                 <div className="absolute left-1/2 -translate-x-1/2 w-12 h-12 bg-[#030303] z-20 hidden lg:flex items-center justify-center">
-                  <div
+                  <motion.div
+                    initial={{ scale: 0, rotate: -180 }}
+                    whileInView={{ scale: 1, rotate: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6, delay: 0.4, type: "spring" }}
                     className={`w-3 h-3 rounded-full bg-[#030303] border-2 border-white/20 relative group-hover:border-white transition-colors`}
                   >
                     <div
-                      className={`absolute inset-[-4px] rounded-full bg-current opacity-20 filter blur-sm ${exp.accent.replace("text", "bg")}`}
+                      className={`absolute inset-[-4px] rounded-full bg-current opacity-40 filter blur-[4px] animate-pulse ${exp.accent.replace("text", "bg")}`}
                     />
-                  </div>
+                  </motion.div>
                 </div>
 
                 {/* Information Card (Bento Path) */}
                 <div className="w-full lg:w-[45%]">
-                  <div
+                  <motion.div
+                    whileHover={{ scale: 1.02, y: -5 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     className={`group relative p-1 rounded-[2.5rem] bg-gradient-to-b from-white/10 to-transparent hover:from-white/20 transition-all duration-700 shadow-2xl`}
                   >
                     <div className="bg-[#0a0a0a] rounded-[2.3rem] p-8 md:p-10 relative overflow-hidden">
@@ -244,11 +259,17 @@ export default function Experience() {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
 
                 {/* Visual Contrast Panel (Desktop) */}
-                <div className="hidden lg:block w-[45%] pointer-events-none">
+                <motion.div 
+                  initial={{ opacity: 0, x: index % 2 === 0 ? 100 : -100, filter: "blur(10px)" }}
+                  whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+                  className="hidden lg:block w-[45%] pointer-events-none"
+                >
                   <div className="relative flex flex-col items-center">
                     <div
                       className={`text-9xl font-black opacity-[0.02] mix-blend-overlay tracking-tighter italic ${exp.accent}`}
@@ -263,7 +284,7 @@ export default function Experience() {
                       <div className="h-px w-20 bg-white/10" />
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>

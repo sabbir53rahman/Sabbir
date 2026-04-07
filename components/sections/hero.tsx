@@ -125,13 +125,27 @@ export default function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="relative w-full max-w-4xl mx-auto perspective-1000"
+          className="relative w-full max-w-4xl mx-auto perspective-1000 group z-10"
         >
-          {/* Card Wrapper with intricate shadow mapping */}
-          <div className="relative rounded-[2.5rem] p-3 bg-white/5 border border-white/10 backdrop-blur-2xl shadow-[0_20px_80px_-20px_rgba(0,0,0,1)]">
-            <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-[2.5rem] opacity-50 pointer-events-none" />
+          {/* 1. Ultra-Premium Ambient Glow (Bleeds light outside the border) */}
+          <div className="absolute -inset-[2px] rounded-[2.5rem] opacity-30 group-hover:opacity-70 blur-2xl transition-all duration-1000 pointer-events-none z-0">
+            <div className="absolute top-1/2 left-1/2 w-[150%] aspect-square -translate-x-1/2 -translate-y-1/2 animate-[spin_10s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_72deg,rgba(99,102,241,0.6)_160deg,rgba(255,255,255,0.8)_180deg,transparent_180deg,transparent_252deg,rgba(14,165,233,0.6)_340deg,rgba(255,255,255,0.8)_360deg)]" />
+          </div>
 
-            <div className="relative flex flex-col md:flex-row items-center gap-8 bg-[#0a0a0a] rounded-[2rem] p-6 sm:p-8 overflow-hidden border border-white/5">
+          {/* 2. Animated Glowing Border Wrapper (Sharp clipped rim) */}
+          <div className="relative rounded-[2.5rem] p-[2px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden z-10 transition-transform duration-700">
+            {/* The Crisp Rotating Light Gradient (Hotspot Comet) */}
+            <div className="absolute top-1/2 left-1/2 z-0 w-[200%] md:w-[150%] aspect-square -translate-x-1/2 -translate-y-1/2 animate-[spin_8s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_72deg,rgba(99,102,241,1)_150deg,white_175deg,transparent_180deg,transparent_252deg,rgba(14,165,233,1)_330deg,white_355deg,transparent_360deg)] opacity-70 group-hover:opacity-100 transition-opacity duration-1200 blur-[2px]" />
+
+            {/* Base static border layer to ensure border never disappears */}
+            <div className="absolute inset-0 z-0 bg-white/5 rounded-[2.5rem]" />
+
+            {/* 3. Inner Content Card */}
+            <div className="relative z-10 flex flex-col md:flex-row items-center gap-8 bg-[#0a0a0a]/90 backdrop-blur-3xl rounded-[2.4rem] p-6 sm:p-8 overflow-hidden border border-white/5 shadow-2xl">
+              {/* Refined Ambient Inner Glow & Vignette */}
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-transparent opacity-60 pointer-events-none" />
+              <div className="absolute inset-0 shadow-[inset_0_0_80px_rgba(0,0,0,0.6)] pointer-events-none" />
+
               {/* Image Section */}
               <div className="w-32 h-32 sm:w-40 sm:h-40 shrink-0 relative rounded-full overflow-hidden border border-white/10 bg-slate-900 shadow-xl">
                 <Image
@@ -187,6 +201,8 @@ export default function Hero() {
                   "React.js",
                   "Next.js 14",
                   "Node.js",
+                  "PostgreSQL",
+                  "Docker",
                   "MongoDB",
                   "TypeScript",
                 ].map((tech, i) => (

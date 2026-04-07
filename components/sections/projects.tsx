@@ -15,8 +15,9 @@ import {
 import LMS from "@/components/assets/lms.png";
 import COCO from "@/components/assets/Coco.png";
 import SMS from "@/components/assets/sms.png";
-import Lanxa from "@/components/assets/Lanxa.png";
+import Lanxa from "@/components/assets/lanxa.png";
 import Hikhma from "@/components/assets/hikhma.png";
+import Guidely from "@/components/assets/Guidely.png";
 
 // This array can scale infinitely. The grid fluidly adapts.
 const projects = [
@@ -30,6 +31,23 @@ const projects = [
     github: "https://github.com/sabbir53rahman/LMS_Client",
     live: "https://lms-client-wxa2.onrender.com/",
     featured: true, // Optional flag if treating specific items differently later
+  },
+  {
+    title: "Guidely",
+    category: "Full Stack",
+    description:
+      "A sophisticated Mentor Management System designed to bridge the gap between learners and experts. Engineered custom booking logic, integrated secure scheduling, and developed an internal video meeting solution to provide a seamless end-to-end consulting experience.",
+    image: Guidely, // Ensure you import the 'Guidely' image variable at the top of your file
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Prisma",
+      "Tailwind CSS",
+      "Framer Motion",
+    ],
+    github: "https://github.com/sabbir53rahman/guidely-client", // Updated based on your naming convention
+    live: "https://guidely-client-hazel.vercel.app/",
+    featured: true,
   },
   {
     title: "Xero SMS Gateway",
@@ -65,17 +83,7 @@ const projects = [
     featured: false,
   },
   // Adding placeholders to demonstrate infinite scalability
-  {
-    title: "Finance Dashboard UI",
-    category: "Frontend",
-    description:
-      "A highly interactive fintech application dashboard demonstrating real-time websocket data synchronization and complex financial charting utilizing D3.js.",
-    image: "/placeholder.svg?height=600&width=800",
-    technologies: ["React", "TypeScript", "D3.js", "Zustand"],
-    github: "#",
-    live: "#",
-    featured: false,
-  },
+
   {
     title: "Lanxa",
     category: "Frontend",
